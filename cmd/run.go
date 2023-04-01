@@ -48,7 +48,7 @@ func cmdrun(cmd *cobra.Command, args []string) {
 }
 
 func compileAndRun(workdir string) {
-    cmd := exec.Command("g++", "main.cpp", "-o", "main")
+    cmd := exec.Command("g++", "main.cpp", "-std=c++20", "-o", "main")
     var outb, errb bytes.Buffer
     cmd.Stdout = &outb
     cmd.Stderr = &errb
