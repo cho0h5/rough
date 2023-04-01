@@ -22,7 +22,7 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: run,
+	Run: cmdnew,
 }
 
 func init() {
@@ -39,7 +39,7 @@ func init() {
 	// newCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func run(cmd *cobra.Command, args []string) {
+func cmdnew(cmd *cobra.Command, args []string) {
     targetPath := getProjectPath(args)
     makeDir(targetPath)
     createCpp(targetPath)

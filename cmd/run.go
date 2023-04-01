@@ -5,7 +5,12 @@ Copyright © 2023 NAME HERE <EMAIL ADDRESS>
 package cmd
 
 import (
+	"os"
+	"bytes"
+	"os/exec"
 	"fmt"
+	"strings"
+	"log"
 
 	"github.com/spf13/cobra"
 )
@@ -20,9 +25,7 @@ and usage of using your command. For example:
 Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
-	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("run called")
-	},
+	Run: cmdrun,
 }
 
 func init() {
@@ -37,4 +40,38 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// runCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func cmdrun(cmd *cobra.Command, args []string) {
+    workdir := getProjectPath(args)
+    compileAndRun(workdir)
+}
+
+func compileAndRun(workdir string) {
+    cmd := exec.Command("g++", "main.cpp", "-o", "main")
+    var outb, errb bytes.Buffer
+    cmd.Stdout = &outb
+    cmd.Stderr = &errb
+    cmd.Dir = workdir
+    err := cmd.Run()
+
+    fmt.Print(strings.Trim(outb.String(), "\n"))
+    fmt.Print(strings.Trim(errb.String(), "\n"))
+    if err != nil {
+	log.Fatal(err)
+    }
+
+
+    cmd = exec.Command("./main")
+    cmd.Stdout = &outb
+    cmd.Stderr = &errb
+    cmd.Stdin = os.Stdin
+    cmd.Dir = workdir
+    err = cmd.Run()
+
+    fmt.Print(strings.Trim(outb.String(), "\n"))
+    fmt.Print(strings.Trim(errb.String(), "\n"))
+    if err != nil {
+	log.Fatal(err)
+    }
 }
