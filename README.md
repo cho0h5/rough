@@ -14,5 +14,5 @@ PATH=$PATH:~/go/bin
 $ rough new directory_name  # 폴더를 만들고 main.cpp파일을 만들어 넣습니다.
 $ cd directory_name
 $ vim main.cpp
-$ rough run # 실행합니다.
+$ rough run # 실행합니다. (g++ main.cpp -std=c++20 -o main && ./main)
 ```
